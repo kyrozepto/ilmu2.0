@@ -2,14 +2,15 @@
 include 'koneksi.php';
 session_start();
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php"); Redirect to login page if not logged in
+    header("Location: login.php"); // Redirect to login page if not logged in
     exit();
 }
-
+// Initialize filter conditions
 $npmFilter = isset($_GET['npm']) ? $_GET['npm'] : '';
 $namaFilter = isset($_GET['nama']) ? $_GET['nama'] : '';
 $genderFilter = isset($_GET['gender']) ? $_GET['gender'] : '';
 
+// Build the SQL query with filter conditions if filters are present
 if (!empty($npmFilter) || !empty($namaFilter) || !empty($genderFilter)) {
     $query = "SELECT * FROM mahasiswa WHERE 1";
 
