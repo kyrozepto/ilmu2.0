@@ -1,8 +1,8 @@
 <?php
-	$host = getenv('DATABASE_HOST');
-	$user = getenv('DATABASE_USER');
-	$pass = getenv('DATABASE_PASSWORD');
-	$db = getenv('DATABASE_NAME');
+	$host = 'localhost';
+	$user = 'root';
+	$pass ='';
+	$db = 'db_ilmu';
 	$conn = mysqLi_connect($host,$user, $pass, $db);
 	if($conn){
 	}
