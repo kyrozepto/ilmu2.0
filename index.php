@@ -1,13 +1,36 @@
 <?php
-	include 'koneksi.php';
+    include 'koneksi.php';
+    session_start();
 
-	session_start();
+    // Initialize filter conditions
+    $npmFilter = isset($_GET['npm']) ? $_GET['npm'] : '';
+    $namaFilter = isset($_GET['nama']) ? $_GET['nama'] : '';
+    $genderFilter = isset($_GET['gender']) ? $_GET['gender'] : '';
 
+    // Build the SQL query with filter conditions if filters are present
+    if (!empty($npmFilter) || !empty($namaFilter) || !empty($genderFilter)) {
+        $query = "SELECT * FROM mahasiswa WHERE 1";
 
-	$query = "SELECT * FROM mahasiswa;";
-	$sql = mysqli_query($conn, $query);
-	$no = 0;
-	//var_dump($result);
+        if (!empty($npmFilter)) {
+            $query .= " AND npm = '$npmFilter'";
+        }
+
+        if (!empty($namaFilter)) {
+            $query .= " AND nama_mahasiswa LIKE '%$namaFilter%'";
+        }
+
+        if (!empty($genderFilter)) {
+            $query .= " AND gender = '$genderFilter'";
+        }
+
+        $query .= ";";
+    } else {
+        // If no filters, fetch all data
+        $query = "SELECT * FROM mahasiswa;";
+    }
+
+    $sql = mysqli_query($conn, $query);
+    $no = 0;
 ?>
 
 <!DOCTYPE html>
@@ -59,6 +82,44 @@
 		<a href="kelola.php" type="button" class="btn btn-outline-success mb-3">
 			Tambah Data
 		</a>
+		<button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#filterModal">
+    		Filter Data
+		</button>
+
+		<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="filterModalLabel">Filter Data Mahasiswa</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				<form action="index.php" method="get">
+					<div class="mb-3">
+						<label for="npmFilter" class="form-label">NPM</label>
+						<input type="text" class="form-control" id="npmFilter" name="npm">
+					</div>
+					<div class="mb-3">
+						<label for="namaFilter" class="form-label">Nama Mahasiswa</label>
+						<input type="text" class="form-control" id="namaFilter" name="nama">
+					</div>
+					<div class="mb-3">
+						<label for="genderFilter" class="form-label">Gender</label>
+						<select class="form-select" id="genderFilter" name="gender">
+						<option value="">Semua</option>
+						<option value="Pria">Pria</option>
+						<option value="Wanita">Wanita</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary">Filter</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+				</form>
+
+				</div>
+				</div>
+			</div>
+			</div>
+
 		<?php
 			if(isset($_SESSION['eksekusi'])):
 		?>
