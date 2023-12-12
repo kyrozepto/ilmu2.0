@@ -1,85 +1,90 @@
-    <?php
-    include 'koneksi.php';
-    session_start();
-	
-    // masih problem
-    // if (!isset($_SESSION['first_visit'])) {
-    //     $_SESSION['first_visit'] = true;
-    //     header("Location: landing.php");
-    //     exit();
-    // }
-
-    function getFilterOptions() {
-        $queryKota = "SELECT nama_kota FROM filter_kota";
-        $resultKota = mysqli_query($GLOBALS['conn'], $queryKota);
-    
-        $queryAngkatan = "SELECT DISTINCT SUBSTRING(npm, 1, 2) AS angkatan FROM mahasiswa";
-        $resultAngkatan = mysqli_query($GLOBALS['conn'], $queryAngkatan);
-    
-        $options = [];
-    
-        while ($rowKota = mysqli_fetch_assoc($resultKota)) {
-            $options['kota'][] = $rowKota['nama_kota'];
-        }
-    
-        while ($rowAngkatan = mysqli_fetch_assoc($resultAngkatan)) {
-            $options['angkatan'][] = $rowAngkatan['angkatan'];
-        }
-    
-        return $options;
-    }
-    
-    // Initialize filter conditions
-    $npmFilter = isset($_GET['npm']) ? $_GET['npm'] : '';
-    $namaFilter = isset($_GET['nama']) ? $_GET['nama'] : '';
-    $genderFilter = isset($_GET['gender']) ? $_GET['gender'] : '';
-    $kotaFilter = isset($_GET['alamat'])? $_GET['alamat'] : '';
-    $jurusanFilter = isset($_GET['jurusan']) ? $_GET['jurusan'] : '';
-    $angkatanFilter = isset($_GET['angkatan']) ? $_GET['angkatan'] : '';
+<?php
+session_start();
+include 'koneksi.php';
 
 
-    // Build the SQL query with filter conditions if filters are present
-    if (!empty($npmFilter) || !empty($namaFilter) || !empty($genderFilter) || !empty($kotaFilter) || !empty($jurusanFilter) || !empty($angkatanFilter)) {
-        $query = "SELECT * FROM mahasiswa WHERE 1";
+// Tambahkan logika redirect ke halaman landing jika belum masuk
+// if (!isset($_SESSION['first_visit'])) {
+//     $_SESSION['first_visit'] = true;
+//     header("Location: landing.php");
+//     exit();
+// }
 
-        if (!empty($npmFilter)) {
-            $query .= " AND npm = '$npmFilter'";
-        }
+function getFilterOptions() {
+    $queryKota = "SELECT nama_kota FROM filter_kota";
+    $resultKota = mysqli_query($GLOBALS['conn'], $queryKota);
 
-        if (!empty($namaFilter)) {
-            $query .= " AND nama_mahasiswa LIKE '%$namaFilter%'";
-        }
+    $queryAngkatan = "SELECT DISTINCT SUBSTRING(npm, 1, 2) AS angkatan FROM mahasiswa";
+    $resultAngkatan = mysqli_query($GLOBALS['conn'], $queryAngkatan);
 
-        if (!empty($genderFilter)) {
-            $query .= " AND gender = '$genderFilter'";
-        }
+    $options = [];
 
-        if (!empty($kotaFilter)) {
-            $query .= " AND SUBSTRING_INDEX(alamat, ' ', -1) = '$kotaFilter'";
-        }
-        
-        if (!empty($jurusanFilter)) {
-            $query .= " AND jurusan = '$jurusanFilter'";
-        }
-
-        if (!empty($angkatanFilter)) {
-            $query .= " AND SUBSTRING(npm, 1, 2) = '$angkatanFilter'";
-        }
-
-        $query .= ";";
-    } else {
-        // If no filters, fetch all data
-        $query = "SELECT * FROM mahasiswa;";
+    while ($rowKota = mysqli_fetch_assoc($resultKota)) {
+        $options['kota'][] = $rowKota['nama_kota'];
     }
 
-    $sql = mysqli_query($conn, $query);
-    $no = 0;
-    ?>
+    while ($rowAngkatan = mysqli_fetch_assoc($resultAngkatan)) {
+        $options['angkatan'][] = $rowAngkatan['angkatan'];
+    }
+
+    return $options;
+}
+
+// Initialize filter conditions
+$npmFilter = isset($_GET['npm']) ? $_GET['npm'] : '';
+$namaFilter = isset($_GET['nama']) ? $_GET['nama'] : '';
+$genderFilter = isset($_GET['gender']) ? $_GET['gender'] : '';
+$kotaFilter = isset($_GET['alamat'])? $_GET['alamat'] : '';
+$jurusanFilter = isset($_GET['jurusan']) ? $_GET['jurusan'] : '';
+$angkatanFilter = isset($_GET['angkatan']) ? $_GET['angkatan'] : '';
+
+
+// Build the SQL query with filter conditions if filters are present
+if (!empty($npmFilter) || !empty($namaFilter) || !empty($genderFilter) || !empty($kotaFilter) || !empty($jurusanFilter) || !empty($angkatanFilter)) {
+    $query = "SELECT * FROM mahasiswa WHERE 1";
+
+    if (!empty($npmFilter)) {
+        $query .= " AND npm = '$npmFilter'";
+    }
+
+    if (!empty($namaFilter)) {
+        $query .= " AND nama_mahasiswa LIKE '%$namaFilter%'";
+    }
+
+    if (!empty($genderFilter)) {
+        $query .= " AND gender = '$genderFilter'";
+    }
+
+    if (!empty($kotaFilter)) {
+        $query .= " AND SUBSTRING_INDEX(alamat, ' ', -1) = '$kotaFilter'";
+    }
+    
+    if (!empty($jurusanFilter)) {
+        $query .= " AND jurusan = '$jurusanFilter'";
+    }
+
+    if (!empty($angkatanFilter)) {
+        $query .= " AND SUBSTRING(npm, 1, 2) = '$angkatanFilter'";
+    }
+
+    $query .= ";";
+} else {
+    // If no filters, fetch all data
+    $query = "SELECT * FROM mahasiswa;";
+}
+
+$sql = mysqli_query($conn, $query);
+$no = 0;
+?>
 
     <!DOCTYPE html>
     <html lang="en">
 
     <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+        <link rel="manifest" href="favicon_io/site.webmanifest">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Informasi Mahasiswa - Database Ilmu</title>
@@ -103,7 +108,7 @@
                 color: #ffffff; /* White Text */
             }
 
-            h1,
+            h2,
             h3 {
                 color: #28a745; /* Green Headings */
             }
@@ -172,7 +177,7 @@
         </nav>
 
         <div class="container">
-            <h1 class="mt-4 text-center"><strong>Informasi Mahasiswa</strong></h1>
+            <h2 class="mt-4 text-center"><strong>Informasi Mahasiswa</strong></h2>
             <figure>
                 <blockquote class="blockquote text-center">
                     <p>Data Mahasiswa Aktif 2023</p>
@@ -312,7 +317,7 @@
                                 </td>
                                 <td>
                                     <center>
-                                        <img src="img/<?php echo $result['foto_mahasiswa']; ?>" style="width: 50px">
+                                        <img src="img/<?php echo $result['foto_mahasiswa']; ?>" style="width: 40px">
                                     </center>
                                 </td>
                                 <td>
