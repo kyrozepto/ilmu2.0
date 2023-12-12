@@ -51,6 +51,13 @@
         }
     }
 
+    // function updateJurusanTrigger($npm) {
+    //     $jurusan_code = substr($npm, 2, 3);
+    
+    //     // Update the jurusan field in the corresponding row in nilai_mahasiswa
+    //     $updateJurusanQuery = "UPDATE nilai_mahasiswa SET jurusan = '$jurusan_code' WHERE npm = '$npm'";
+    //     mysqli_query($GLOBALS['conn'], $updateJurusanQuery);
+    // }
     
     function getLastWord($string) {
         $words = explode(' ', $string);
