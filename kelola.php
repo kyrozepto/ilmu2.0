@@ -13,7 +13,7 @@
 
 		if(isset($_GET['ubah'])){
 			$id_mahasiswa = $_GET['ubah'];
-			echo $id_mahasiswa;
+			// echo $id_mahasiswa;
 
 			$query = "SELECT * FROM mahasiswa WHERE id_mahasiswa = '$id_mahasiswa';";
 			$sql = mysqli_query($conn, $query);
@@ -32,23 +32,33 @@
 
 <html>
 <head>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
 	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!--Bottstrap-->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<script src="js/bootstrap.bundle.min.js"> </script>
-
 	<link rel="stylesheet" href="fontawesome/css/fontawesome.min.css">
-
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700&display=swap">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light Gray Background */
+            font-family: 'Raleway', sans-serif; /* Raleway font */
+        }
+	</style>
+	
 	<title>Ilmu UPNVJT</title>
 </head>
 <body>
-	<nav class="navbar navbar-light bg-light mb-5">
-	  <div class="container-fluid">
-	    <a class="navbar-brand" href="#">
-	      Ilmu UPNVJT
-	    </a>
-	  </div>
-	</nav>
+	<nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Ilmu UPNVJT - Tambah Data</a>
+        </div>
+    </nav>
 		<div class="container">
 			<form method="POST" action="proses.php" enctype="multipart/form-data">
 				<input type="hidden" value="<?php echo $id_mahasiswa; ?>" name="id_mahasiswa">
