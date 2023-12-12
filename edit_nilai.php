@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-    <?php
-		include 'koneksi.php';
+<?php
+include 'koneksi.php';
 
-		$id_nilai ='';
-		$npm = '';
-		$nama_mahasiswa = '';
-		$tugas = '';
-		$uts = '';
-		$uas = '';
-        $tugas_akhir = '';
+$id_nilai ='';
+$npm = '';
+$nama_mahasiswa = '';
+$tugas = '';
+$uts = '';
+$uas = '';
+$tugas_akhir = '';
 
-		if(isset($_GET['ubah'])){
-			$id_nilai = $_GET['ubah'];
-			// echo $id_nilai;
+	if(isset($_GET['ubah'])){
+		$id_nilai = $_GET['ubah'];
+		// echo $id_nilai;
 
-			$query = "SELECT * FROM nilai_mahasiswa WHERE id_nilai = '$id_nilai';";
-			$sql = mysqli_query($conn, $query);
+		$query = "SELECT * FROM nilai_mahasiswa WHERE id_nilai = '$id_nilai';";
+		$sql = mysqli_query($conn, $query);
 
-			$result = mysqli_fetch_assoc($sql);
-			$npm = $result['npm'];
-			$nama_mahasiswa = $result['nama_mahasiswa'];
-			$tugas = $result['tugas'];
-			$uts = $result['uts'];
-			$uas = $result['uas'];
-			$tugas_akhir = $result['tugas_akhir'];
+		$result = mysqli_fetch_assoc($sql);
+		$npm = $result['npm'];
+		$nama_mahasiswa = $result['nama_mahasiswa'];
+		$tugas = $result['tugas'];
+		$uts = $result['uts'];
+		$uas = $result['uas'];
+		$tugas_akhir = $result['tugas_akhir'];
 
-			//var_dump($result);
-			//die();
-		}
-	?>
+		//var_dump($result);
+		//die();
+	}
+?>
 <html lang="en">
 
 <head>
